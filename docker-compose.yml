@@ -1,0 +1,14 @@
+services:
+  remarkable2-backup:
+    image: ghcr.io/ianwestergithub/remarkable2-backup:latest
+    container_name: remarkable2-backup
+    restart: unless-stopped
+    environment:
+      - RM_HOST=192.168.1.50      # your tablet's IP address (give it a fixed IP in your router)
+      - KEEP=8                    # number of archives to keep
+      - INTERVAL_HOURS=24         # how often to take a backup
+      - TZ=Europe/London          # your time zone, for log and file timestamps
+      - TEST_RUN=0                # set to 1 once to test host-key recovery, then back to 0
+    volumes:
+      - ./ssh:/ssh                # the container's SSH key - keep this folder!
+      - ./archives:/archives      # where the backups are written
